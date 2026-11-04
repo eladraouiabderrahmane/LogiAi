@@ -1,4 +1,5 @@
 """Réglages du projet LogiAI : tout ce qui peut changer est ici."""
+
 import os
 from pathlib import Path
 
@@ -16,7 +17,14 @@ MODEL_PATH = ROOT / "models" / "model.joblib"
 INFO_PATH = ROOT / "models" / "model_info.json"
 
 TARGET = "retard"  # 1 = livraison en retard, 0 = à l'heure
-NUM_FEATURES = ["distance_km", "poids_kg", "heure_depart", "pluie_mm", "trafic_index", "nb_arrets"]
+NUM_FEATURES = [
+    "distance_km",
+    "poids_kg",
+    "heure_depart",
+    "pluie_mm",
+    "trafic_index",
+    "nb_arrets",
+]
 CAT_FEATURES = ["type_vehicule"]
 FEATURES = NUM_FEATURES + CAT_FEATURES
 
@@ -24,7 +32,7 @@ ALERT_THRESHOLD = 0.4  # au-dessus : on prévient le dispatcher
 SEED = 42
 
 # Sécurité : les clés viennent de l'environnement, jamais du code
-API_KEY = os.getenv("LOGIAI_API_KEY")      # clé d'un utilisateur ordinaire
+API_KEY = os.getenv("LOGIAI_API_KEY")  # clé d'un utilisateur ordinaire
 ADMIN_KEY = os.getenv("LOGIAI_ADMIN_KEY")  # clé d'un administrateur
 
 # Pages web autorisées à appeler l'API depuis un navigateur (CORS)

@@ -70,19 +70,22 @@ function afficher(message, classe) {
 }
 
 async function appelerApi(livraison, cle) {
-  // TODO 4 (bloc 4) : envoyer la livraison à API_URL avec fetch.
-  //  - méthode POST ; en-têtes "Content-Type": "application/json" et "X-API-Key": cle ;
-  //  - corps : JSON.stringify(livraison) ;
-  //  - renvoyer { status: reponse.status, corps: await reponse.json() }.
-  throw new Error("appelerApi() n'est pas encore écrite");
+  const reponse = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-API-Key": cle },
+    body: JSON.stringify(livraison),
+  });
+  const corps = await reponse.json();
+  return { status: reponse.status, corps };
 }
 
 function messageErreur(status, corps) {
   if (status === 401) return "Clé API absente ou invalide.";
   if (status === 403) return "Vous n'avez pas les droits pour cette action.";
   if (status === 503) return "Le service n'est pas prêt (modèle non chargé). Réessayez plus tard.";
-  // TODO 5 (ergonomie) : pour un 422, corps.detail est une liste d'erreurs {loc, msg}.
-  //  Affichez une phrase lisible, par exemple "distance_km : Input should be ...".
+  if (status === 422) {
+    return corps.detail.map((e) => `${e.loc[e.loc.length - 1]} : ${e.msg}`).join(" ; ");
+  }
   return `Erreur ${status}.`;
 }
 
@@ -99,7 +102,7 @@ formulaire.addEventListener("submit", async (evenement) => {
     type_vehicule: donnees.get("type_vehicule"),
   };
 
-  // TODO 6 (ergonomie) : désactiver le bouton pendant l'appel (bouton.disabled = true)
+  bouton.disabled = true;
   afficher("Calcul en cours…", "");
   try {
     const { status, corps } = await appelerApi(livraison, donnees.get("cle"));
@@ -114,10 +117,10 @@ formulaire.addEventListener("submit", async (evenement) => {
       afficher(messageErreur(status, corps), "erreur");
     }
   } catch (erreur) {
-    // TODO 7 (ergonomie) : un message clair pour l'utilisateur (serveur arrêté ? blocage CORS ? voir F12)
-    afficher("Erreur.", "erreur");
+    afficher("API injoignable : le serveur est-il lancé ? Sinon, blocage CORS possible (voir la console, F12).", "erreur");
+  } finally {
+    bouton.disabled = false;
   }
-  // TODO 6 (suite) : réactiver le bouton quand l'appel est terminé (bloc finally)
 });
 </script>
 </body>

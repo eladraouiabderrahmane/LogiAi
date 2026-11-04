@@ -1,4 +1,5 @@
 """Outils partagés par tous les tests (fixtures)."""
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -37,6 +38,11 @@ def headers_admin():
 def livraison_valide():
     """Une livraison correcte, neuve à chaque test (on peut la modifier librement)."""
     return {
-        "distance_km": 120.0, "poids_kg": 450.0, "heure_depart": 17,
-        "pluie_mm": 8.0, "trafic_index": 7.5, "nb_arrets": 4, "type_vehicule": "camion",
+        "distance_km": 120.0,
+        "poids_kg": 450.0,
+        "heure_depart": 17,
+        "pluie_mm": 8.0,
+        "trafic_index": 7.5,
+        "nb_arrets": 4,
+        "type_vehicule": "camion",
     }
