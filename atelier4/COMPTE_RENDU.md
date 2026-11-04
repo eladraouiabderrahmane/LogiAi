@@ -135,4 +135,4 @@ Access to fetch at 'http://localhost:8000/v1/predict' from origin 'http://localh
 5. **Pourquoi la validation faite par le navigateur ne remplace-t-elle pas celle de l'API ?** Elle se contourne facilement : `curl`, un programme Java ou la console F12 peuvent envoyer n'importe quelle requête sans passer par la page. Elle améliore le confort de l'utilisateur, mais seule la validation côté serveur garantit le contrôle des données.
 
 ## 6. Lien de la pull request
-À compléter après création de la pull request.
+https://github.com/eladraouiabderrahmane/LogiAi/pull/1
